@@ -1,6 +1,6 @@
 from tkinter import *
 from time import sleep
-import GetNewsInfo, GetWeatherInfo
+import news, weather
 import datetime
 import webbrowser
 
@@ -36,9 +36,9 @@ class MyFrame:
         # TimeInfo
         self.time = datetime.datetime.now().strftime('%Y %m %d %H:%M')
         # WeatherInfo
-        self.weather = GetWeatherInfo.getData()
+        self.weather = weather.getData()
         # NewsInfo
-        self.newsInfo = GetNewsInfo.getData()
+        self.newsInfo = news.getData()
         
 
     def initGUI(self):
