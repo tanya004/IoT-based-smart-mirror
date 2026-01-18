@@ -1,33 +1,41 @@
-import xmltodict, json, requests
+import json, requests
 
-urlwheather = 'http://www.kma.go.kr/wid/queryDFS.jsp'
+
+urlwheather = 'https://api.openweathermap.org/data/2.5/weather'
 
 paramswheather = dict(
-    ##서울시 도봉구 쌍문동의 xy좌표
-    gridx='61',
-    gridy='128'
+    q='Bangalore,IN',
+    appid='YOUR_API_KEY',
+    units='metric'
 )
 
 data = None
 
+
 def __init__():
     global data
     resp = requests.get(url=urlwheather, params=paramswheather)
-    data = xmltodict.parse(resp.text)
+    data = resp.json()
     json.dumps(data)
     getData()
-    #printData()
+    # printData()
 
 
 def getData():
-    temperature = data['wid']['body']['data'][0]['temp']
-    weather = data['wid']['body']['data'][0]['wfKor']
-    rainfall = data['wid']['body']['data'][0]['pop']
+    temperature = data['main']['temp']
+    weather = data['weather'][0]['description']
+    rainfall = data.get('rain', {}).get('1h', 0)
     return (temperature, weather, rainfall)
 
 
 def printData():
-    print(data['wid']['body']['data'][0]['temp'])  # 현재온도
-    print(data['wid']['body']['data'][0]['wfKor'])  # 날씨 한마디
-    print(data['wid']['body']['data'][0]['pop'])  # 강수확률
+    print(data['main']['temp'])
+    print(data['weather'][0]['description'])
+    print(data.get('rain', {}).get('1h', 0))
+
+
+# run
+__init__()
+printData()
+
 
